@@ -1,0 +1,7 @@
+# Cache Files
+*cache*
+
+# Database and related files
+*.db
+*.csv
+*.sqbpro

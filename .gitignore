@@ -5,3 +5,6 @@
 *.db
 *.csv
 *.sqbpro
+
+# Exceptions
+!DBManager/tests/data/*

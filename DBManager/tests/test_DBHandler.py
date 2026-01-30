@@ -39,16 +39,16 @@ def test_DBHandler_isConnected_False(mock_DBHandler) -> None:
     assert mock_DBHandler.isConnected() == False
 
 def test_DBHandler_isConnected_True(tmp_path) -> None:
-    copy("./data/empty.db", tmp_path / "empty.db")
-    tempDB = DBHandler(tmp_path / "empty.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion() # Relies on createConnection to be True
     assert tempDB.isConnected() == True
     tempDB.closeConnection()
 
 # createConnection
 def test_DBHandler_createConnection_validFilepath(tmp_path) -> None:
-    copy("./data/empty.db", tmp_path / "empty.db")
-    tempDB = DBHandler(tmp_path / "empty.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
 
 def test_DBHandler_createConnection_invalidFilepath(mock_DBHandler_badFilepath: DBHandler) -> None:
@@ -56,22 +56,22 @@ def test_DBHandler_createConnection_invalidFilepath(mock_DBHandler_badFilepath: 
         mock_DBHandler_badFilepath.createConnetion()
 
 def test_DBHandler_createConnection_preexistingConnection(tmp_path) -> None:
-    copy("./data/empty.db", tmp_path / "empty.db")
-    tempDB = DBHandler(tmp_path / "empty.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
     tempDB.createConnetion() # second call should do nothing
 
 # closeConnection
 def test_DBHandler_closeConnection_success(tmp_path) -> None:
-    copy("./data/empty.db", tmp_path / "empty.db")
-    tempDB = DBHandler(tmp_path / "empty.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
     tempDB.closeConnection()
     assert tempDB.isConnected() == False
 
 def test_DBHandler_closeConnection_noConnection(tmp_path) -> None:
-    copy("./data/empty.db", tmp_path / "empty.db")
-    tempDB = DBHandler(tmp_path / "empty.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     assert tempDB.isConnected() == False
 
 # request
@@ -80,8 +80,8 @@ def test_DBHandler_request_noConnection(mock_DBHandler) -> None:
         mock_DBHandler.request("")
 
 def test_DBHandler_request_validRequest_select(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
     
     expected = [
@@ -94,8 +94,8 @@ def test_DBHandler_request_validRequest_select(tmp_path) -> None:
     assert expected == actual
 
 def test_DBHandler_request_validRequest_create(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
 
     tempDB.request('CREATE TABLE "new_table" ("ID" INTEGER)')
@@ -105,8 +105,8 @@ def test_DBHandler_request_validRequest_create(tmp_path) -> None:
     assert expected == actual
 
 def test_DBHandler_request_validRequest_insert(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
 
     tempDB.request('INSERT INTO test_table VALUES (4, "Baz")')
@@ -121,8 +121,8 @@ def test_DBHandler_request_validRequest_insert(tmp_path) -> None:
     assert expected == actual
 
 def test_DBHandler_request_validRequest_delete(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
     tempDB.request("DELETE FROM test_table WHERE ID = 1")
 
@@ -134,22 +134,22 @@ def test_DBHandler_request_validRequest_delete(tmp_path) -> None:
     assert expected == actual
 
 def test_DBHandler_request_invalidRequest(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db")
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
     with pytest.raises(sqlite3.OperationalError):
         tempDB.request("WHERE SELECT FROM")
 
 # commit
 def test_DBHandler_commit(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db", False)
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db", False)
     tempDB.createConnetion()
     tempDB.request("DELETE FROM test_table WHERE ID = 1")
     tempDB.commit()
     tempDB.closeConnection()
 
-    newConn = DBHandler(tmp_path / "filled.db", False)
+    newConn = DBHandler(tmp_path / "test.db", False)
     newConn.createConnetion()
 
     expected = [
@@ -160,15 +160,15 @@ def test_DBHandler_commit(tmp_path) -> None:
     assert expected == actual
 
 def test_DBHandler_commit_noConnection(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db", False)
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db", False)
     with pytest.raises(AttributeError):
         tempDB.commit()
 
 # rollback
 def test_DBHandler_rollback(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db", False)
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db", False)
     tempDB.createConnetion()
     tempDB.request("DELETE FROM test_table WHERE ID = 1")
     tempDB.rollback()
@@ -182,7 +182,7 @@ def test_DBHandler_rollback(tmp_path) -> None:
     assert expected == actual
 
 def test_DBHandler_rollback_noConnection(tmp_path) -> None:
-    copy("./data/filled.db", tmp_path / "filled.db")
-    tempDB = DBHandler(tmp_path / "filled.db", False)
+    copy("./data/test.db", tmp_path / "test.db")
+    tempDB = DBHandler(tmp_path / "test.db", False)
     with pytest.raises(AttributeError):
         tempDB.rollback()

@@ -3,7 +3,7 @@ import sqlite3
 
 class DBHandler:
     # Constructor
-    def __init__(self, filepath: str, autocommit: bool = True) -> None:
+    def __init__(self, filepath: str, autocommit: bool = False) -> None:
         self.__filepath = filepath
         self.__connection = None
         self.__autocommit = autocommit

@@ -12,11 +12,11 @@ def change_test_dir(request, monkeypatch):
 
 @pytest.fixture
 def mock_DBHandler() -> DBHandler:
-    return DBHandler("none")
+    return DBHandler("none", True)
 
 @pytest.fixture
 def mock_DBHandler_badFilepath() -> DBHandler:
-    return DBHandler("does_not_exist.db")
+    return DBHandler("does_not_exist.db", True)
 
 # Initialization
 def test_DBHandler_init(mock_DBHandler) -> None:
@@ -103,6 +103,7 @@ def test_DBHandler_request_validRequest_create(tmp_path) -> None:
     expected = list()
     actual = tempDB.request("SELECT * FROM new_table") # Shouldn't error
     assert expected == actual
+    tempDB.closeConnection()
 
 def test_DBHandler_request_validRequest_insert(tmp_path) -> None:
     copy("./data/test.db", tmp_path / "test.db")
@@ -143,13 +144,13 @@ def test_DBHandler_request_invalidRequest(tmp_path) -> None:
 # commit
 def test_DBHandler_commit(tmp_path) -> None:
     copy("./data/test.db", tmp_path / "test.db")
-    tempDB = DBHandler(tmp_path / "test.db", False)
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
     tempDB.request("DELETE FROM test_table WHERE ID = 1")
     tempDB.commit()
     tempDB.closeConnection()
 
-    newConn = DBHandler(tmp_path / "test.db", False)
+    newConn = DBHandler(tmp_path / "test.db")
     newConn.createConnetion()
 
     expected = [
@@ -161,14 +162,14 @@ def test_DBHandler_commit(tmp_path) -> None:
 
 def test_DBHandler_commit_noConnection(tmp_path) -> None:
     copy("./data/test.db", tmp_path / "test.db")
-    tempDB = DBHandler(tmp_path / "test.db", False)
+    tempDB = DBHandler(tmp_path / "test.db")
     with pytest.raises(AttributeError):
         tempDB.commit()
 
 # rollback
 def test_DBHandler_rollback(tmp_path) -> None:
     copy("./data/test.db", tmp_path / "test.db")
-    tempDB = DBHandler(tmp_path / "test.db", False)
+    tempDB = DBHandler(tmp_path / "test.db")
     tempDB.createConnetion()
     tempDB.request("DELETE FROM test_table WHERE ID = 1")
     tempDB.rollback()
@@ -183,6 +184,6 @@ def test_DBHandler_rollback(tmp_path) -> None:
 
 def test_DBHandler_rollback_noConnection(tmp_path) -> None:
     copy("./data/test.db", tmp_path / "test.db")
-    tempDB = DBHandler(tmp_path / "test.db", False)
+    tempDB = DBHandler(tmp_path / "test.db")
     with pytest.raises(AttributeError):
         tempDB.rollback()

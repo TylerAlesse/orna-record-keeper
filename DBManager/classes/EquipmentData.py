@@ -27,16 +27,16 @@ class EquipmentData:
         self.Filepath = Filepath
 
     def exportJSON(self) -> str:
-        content = f'ID:{self.ID},'\
-                  f'Name:"{self.Name}",'\
-                  f'Tier:{self.Tier},'\
-                  f'Type:"{self.Type}",'\
-                  f'Rarity:"{self.Rarity}",'\
-                  f'QualityPercent:{self.QualityPercent},'\
-                  f'QualityName:"{self.QualityName}",'\
-                  f'IsPerfect:{self.IsPerfect},'\
-                  f'IsEvent:{self.IsEvent},'\
-                  f'IsRaidDrop:{self.IsRaidDrop},'\
-                  f'Filepath:"{self.Filepath}"'\
+        content = f'"ID":{self.ID},'\
+                  f'"Name":"{self.Name}",'\
+                  f'"Tier":{self.Tier},'\
+                  f'"Type":"{self.Type}",'\
+                  f'"Rarity":"{self.Rarity}",'\
+                  f'"QualityPercent":{self.QualityPercent},'\
+                  f'"QualityName":"{self.QualityName}",'\
+                  f'"IsPerfect":{self.IsPerfect},'\
+                  f'"IsEvent":{self.IsEvent},'\
+                  f'"IsRaidDrop":{self.IsRaidDrop},'\
+                  f'"Filepath":"{self.Filepath}"'\
         
         return f'{{{content}}}'

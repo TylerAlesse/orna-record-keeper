@@ -34,27 +34,27 @@ class DBPlayerRecordData:
         self.Notes = Notes
 
     def exportJSON(self) -> str:
-        content = f'Level:{self.Level},'\
-                  f'DateObtained:"{self.DateObtained}",'\
-                  f'TotalEXP:{self.TotalEXP},'\
-                  f'Playtime:{self.Playtime},'\
-                  f'GlobalRank:{self.GlobalRank},'\
-                  f'RegionalRank:{self.RegionalRank},'\
-                  f'CompetitiveRank:{self.CompetitiveRank},'\
-                  f'MonsterKills:{self.MonsterKills},'\
-                  f'BossKills:{self.BossKills},'\
-                  f'PlayerKills:{self.PlayerKills},'\
-                  f'QuestsCompleted:{self.QuestsCompleted},'\
-                  f'AreasTaken:{self.AreasTaken},'\
-                  f'AreasExplored:{self.AreasExplored},'\
-                  f'DungeonsCompleted:{self.DungeonsCompleted},'\
-                  f'MonumentsCompleted:{self.MonumentsCompleted},'\
-                  f'TowersCompleted:{self.TowersCompleted},'\
-                  f'ColiseumsCompleted:{self.ColiseumsCompleted},'\
-                  f'ItemsUpgraded:{self.ItemsUpgraded},'\
-                  f'FishCaught:{self.FishCaught},'\
-                  f'DistanceTravelled:{self.DistanceTravelled},'\
-                  f'Reputation:{self.Reputation},'\
-                  f'Codex:{self.Codex},'\
-                  f'Notes:"{self.Notes}"'
+        content = f'"Level":{self.Level},'\
+                  f'"DateObtained":"{self.DateObtained}",'\
+                  f'"TotalEXP":{self.TotalEXP},'\
+                  f'"Playtime":{self.Playtime},'\
+                  f'"GlobalRank":{self.GlobalRank},'\
+                  f'"RegionalRank":{self.RegionalRank},'\
+                  f'"CompetitiveRank":{self.CompetitiveRank},'\
+                  f'"MonsterKills":{self.MonsterKills},'\
+                  f'"BossKills":{self.BossKills},'\
+                  f'"PlayerKills":{self.PlayerKills},'\
+                  f'"QuestsCompleted":{self.QuestsCompleted},'\
+                  f'"AreasTaken":{self.AreasTaken},'\
+                  f'"AreasExplored":{self.AreasExplored},'\
+                  f'"DungeonsCompleted":{self.DungeonsCompleted},'\
+                  f'"MonumentsCompleted":{self.MonumentsCompleted},'\
+                  f'"TowersCompleted":{self.TowersCompleted},'\
+                  f'"ColiseumsCompleted":{self.ColiseumsCompleted},'\
+                  f'"ItemsUpgraded":{self.ItemsUpgraded},'\
+                  f'"FishCaught":{self.FishCaught},'\
+                  f'"DistanceTravelled":{self.DistanceTravelled},'\
+                  f'"Reputation":{self.Reputation},'\
+                  f'"Codex":{self.Codex},'\
+                  f'"Notes":"{self.Notes}"'
         return f'{{{content}}}'

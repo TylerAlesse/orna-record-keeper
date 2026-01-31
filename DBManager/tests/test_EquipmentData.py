@@ -44,9 +44,9 @@ def test_EquipmentData_createFromClasses(mock_CFC: EquipmentData) -> None:
     assert mock_CFC.Filepath == "/img/weapons/dagger.png"
 
 def test_EquipmentData_exportJSON(mock_EquipmentData) -> None:
-    expected = '{ID:504,Name:"Bandit\'s Axe",Tier:1,Type:"Weapons",Rarity:"Common",'\
-                'QualityPercent:198,QualityName:"Ornate",IsPerfect:False,'\
-                'IsEvent:False,IsRaidDrop:False,Filepath:"/img/weapons/battle_axe.png"}'
+    expected = '{"ID":504,"Name":"Bandit\'s Axe","Tier":1,"Type":"Weapons","Rarity":"Common",'\
+                '"QualityPercent":198,"QualityName":"Ornate","IsPerfect":False,'\
+                '"IsEvent":False,"IsRaidDrop":False,"Filepath":"/img/weapons/battle_axe.png"}'
 
     actual = mock_EquipmentData.exportJSON()
     assert actual == expected

@@ -13,6 +13,6 @@ def test_DBEquipmentCollection_init(mock_Collection: DBEquipmentCollection) -> N
     assert mock_Collection.IsPerfect == False
 
 def test_DBEquipmentCollection_exportJSON(mock_Collection: DBEquipmentCollection) -> None:
-    expected = '{ID:504,QualityPercent:198,QualityName:"Ornate",IsPerfect:False}'
+    expected = '{"ID":504,"QualityPercent":198,"QualityName":"Ornate","IsPerfect":False}'
     actual = mock_Collection.exportJSON()
     assert actual == expected

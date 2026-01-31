@@ -11,6 +11,6 @@ def test_DBItemCollection_init(mock_DBItemCollection: DBItemCollection) -> None:
     assert mock_DBItemCollection.Quantity == 100
 
 def test_DBItemCollection_exportJSON(mock_DBItemCollection: DBItemCollection) -> None:
-    expected = '{ID:10,Quantity:100}'
+    expected = '{"ID":10,"Quantity":100}'
     actual = mock_DBItemCollection.exportJSON()
     assert actual == expected

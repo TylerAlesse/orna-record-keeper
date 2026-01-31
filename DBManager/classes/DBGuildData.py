@@ -6,9 +6,9 @@ class DBGuildData:
         self.EXP = EXP
     
     def exportJSON(self) -> str:
-        content = f'PlayerLevel:{self.PlayerLevel},'\
-                  f'Name:"{self.Name}",'\
-                  f'Level:{self.Level},'\
-                  f'EXP:{self.EXP}'
+        content = f'"PlayerLevel":{self.PlayerLevel},'\
+                  f'"Name":"{self.Name}",'\
+                  f'"Level":{self.Level},'\
+                  f'"EXP":{self.EXP}'
 
         return f'{{{content}}}'

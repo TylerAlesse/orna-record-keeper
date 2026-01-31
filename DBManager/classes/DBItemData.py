@@ -19,19 +19,19 @@ class DBItemData:
         self.Removed = Removed
     
     def exportJSON(self) -> str:
-        content = f'ID:{self.ID},'\
-                  f'Name:"{self.Name}",'\
-                  f'Tier:{self.Tier},'\
-                  f'Type:"{self.Type}",'\
-                  f'Rarity:"{self.Rarity}",'\
-                  f'IsEvent:{self.IsEvent},'\
-                  f'IsRaidDrop:{self.IsRaidDrop},'\
-                  f'IsBossScaling:{self.IsBossScaling},'\
-                  f'BSP:{self.BSP},'\
-                  f'PSC:{self.PSC},'\
-                  f'Filepath:"{self.Filepath}",'\
-                  f'Base64:"{self.Base64}",'\
-                  f'Ignored:{self.Ignored},'\
-                  f'Removed:{self.Removed}'
+        content = f'"ID":{self.ID},'\
+                  f'"Name":"{self.Name}",'\
+                  f'"Tier":{self.Tier},'\
+                  f'"Type":"{self.Type}",'\
+                  f'"Rarity":"{self.Rarity}",'\
+                  f'"IsEvent":{self.IsEvent},'\
+                  f'"IsRaidDrop":{self.IsRaidDrop},'\
+                  f'"IsBossScaling":{self.IsBossScaling},'\
+                  f'"BSP":{self.BSP},'\
+                  f'"PSC":{self.PSC},'\
+                  f'"Filepath":"{self.Filepath}",'\
+                  f'"Base64":"{self.Base64}",'\
+                  f'"Ignored":{self.Ignored},'\
+                  f'"Removed":{self.Removed}'
         
         return f'{{{content}}}'

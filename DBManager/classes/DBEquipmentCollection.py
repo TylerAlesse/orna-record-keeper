@@ -6,9 +6,9 @@ class DBEquipmentCollection:
         self.IsPerfect = IsPerfect
 
     def exportJSON(self) -> str:
-        content = f'ID:{self.ID},'\
-                  f'QualityPercent:{self.QualityPercent},'\
-                  f'QualityName:"{self.QualityName}",'\
-                  f'IsPerfect:{self.IsPerfect}'
+        content = f'"ID":{self.ID},'\
+                  f'"QualityPercent":{self.QualityPercent},'\
+                  f'"QualityName":"{self.QualityName}",'\
+                  f'"IsPerfect":{self.IsPerfect}'
                   
         return f'{{{content}}}'

@@ -27,9 +27,9 @@ def test_DBItemData_init(mock_DBItemData: DBItemData) -> None:
     assert mock_DBItemData.Removed == False
 
 def test_DBItemData_exportJSON(mock_DBItemData: DBItemData) -> None:
-    expected = '{ID:81,Name:"Antidote",Tier:1,Type:"Other",Rarity:"Common",'\
-                'IsEvent:False,IsRaidDrop:False,IsBossScaling:False,'\
-                'BSP:12.5,PSC:0,Filepath:"/img/useables/antidote.png",Base64:"",Ignored:False,Removed:False}'
+    expected = '{"ID":81,"Name":"Antidote","Tier":1,"Type":"Other","Rarity":"Common",'\
+                '"IsEvent":False,"IsRaidDrop":False,"IsBossScaling":False,'\
+                '"BSP":12.5,"PSC":0,"Filepath":"/img/useables/antidote.png","Base64":"","Ignored":False,"Removed":False}'
     
     actual = mock_DBItemData.exportJSON()
     assert actual == expected

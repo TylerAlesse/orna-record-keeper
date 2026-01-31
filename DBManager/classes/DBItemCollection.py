@@ -4,6 +4,6 @@ class DBItemCollection:
         self.Quantity = Quantity
     
     def exportJSON(self) -> str:
-        content = f'ID:{self.ID},'\
-                  f'Quantity:{self.Quantity}'
+        content = f'"ID":{self.ID},'\
+                  f'"Quantity":{self.Quantity}'
         return f'{{{content}}}'

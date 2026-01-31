@@ -40,14 +40,14 @@ def test_DBPlayerRecordData_init(mock_DBPlayerRecordData: DBPlayerRecordData) ->
     assert mock_DBPlayerRecordData.Notes == "Here be notes"
 
 def test_DBPlayerRecordData_exportJSON(mock_DBPlayerRecordData: DBPlayerRecordData) -> None:
-    expected = '{Level:81,DateObtained:"11/19/2025",TotalEXP:3463529,Playtime:3481,'\
-                'GlobalRank:1310,RegionalRank:67,CompetitiveRank:1515,'\
-                'MonsterKills:512000,BossKills:257400,PlayerKills:253700,QuestsCompleted:13458,'\
-                'AreasTaken:286,AreasExplored:5765,'\
-                'DungeonsCompleted:21934,MonumentsCompleted:193,TowersCompleted:230,ColiseumsCompleted:4190,'\
-                'ItemsUpgraded:20718,FishCaught:2429,DistanceTravelled:5506664,'\
-                'Reputation:816,Codex:309,'\
-                'Notes:"Here be notes"}'
+    expected = '{"Level":81,"DateObtained":"11/19/2025","TotalEXP":3463529,"Playtime":3481,'\
+                '"GlobalRank":1310,"RegionalRank":67,"CompetitiveRank":1515,'\
+                '"MonsterKills":512000,"BossKills":257400,"PlayerKills":253700,"QuestsCompleted":13458,'\
+                '"AreasTaken":286,"AreasExplored":5765,'\
+                '"DungeonsCompleted":21934,"MonumentsCompleted":193,"TowersCompleted":230,"ColiseumsCompleted":4190,'\
+                '"ItemsUpgraded":20718,"FishCaught":2429,"DistanceTravelled":5506664,'\
+                '"Reputation":816,"Codex":309,'\
+                '"Notes":"Here be notes"}'
     
     actual = mock_DBPlayerRecordData.exportJSON()
     assert actual == expected

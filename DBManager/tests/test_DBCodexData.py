@@ -29,9 +29,9 @@ def test_DBCodexData_getAttributeType(mock_DBCodexData: DBCodexData) -> None:
     assert mock_DBCodexData.getAttributeType("kills") is int
     assert type(mock_DBCodexData.getAttributeType("filepath")) is UnionType
 
-def test_DBCodexData_createFromSQLite() -> None:
-    queryResult = (55, "Boss", 2, "Arachne", "Spider's Nest", "Missing", 0, 10, "spider.png")
-    actual = DBCodexData.createFromTuple(queryResult)
+def test_DBCodexData_createFromTuple() -> None:
+    input = (55, "Boss", 2, "Arachne", "Spider's Nest", "Missing", 0, 10, "spider.png")
+    actual = DBCodexData.createFromTuple(input)
     assert type(actual) is DBCodexData
     assert actual.ID == 55
     assert actual.type == "Boss"

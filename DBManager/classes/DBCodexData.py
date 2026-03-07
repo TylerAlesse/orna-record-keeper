@@ -1,32 +1,49 @@
 class DBCodexData:
+    __slots__ = 'ID', 'type', 'tier', 'name',\
+                'event', 'status', 'manifested', 'kills', 'filepath'
+
+    ID: int
+    type: str
+    tier: int
+    name: str
+    event: str|None
+    status: str
+    manifested: int
+    kills: int
+    filepath: str|None
+
     def __init__(self, _id: int, _type: str, _tier: int, _name: str,
-                 _event: str|None, _status: str, _manifest: int, _kills: int) -> None:
-        self.ID = _id
-        self.type = _type
-        self.tier = _tier
-        self.name = _name
-        self.event = _event
-        self.status = _status
-        self.manifested = _manifest
-        self.kills = _kills
-    
+                 _event: str|None, _status: str, _manifest: int,
+                 _kills: int, _filepath: str|None) -> None:
+        self.ID: int = _id
+        self.type: str = _type
+        self.tier: int = _tier
+        self.name: str = _name
+        self.event: str|None = _event
+        self.status: str = _status
+        self.manifested: int = _manifest
+        self.kills: int = _kills
+        self.filepath: str|None = _filepath
+
+    @classmethod
+    def getAttributeType(cls, name):
+        return cls.__annotations__[name]
+
     @staticmethod
-    def createFromSQLite(data: tuple) -> "DBCodexData":
-        # Need to thoroughly check the tuple's data
-        if not data.__len__() == 8:
-            raise ValueError(f'createFromSQLite() failed: Parameter "data" was not size (8), was ()')
+    def createFromTuple(data: tuple) -> "DBCodexData":
+        slots = DBCodexData.__slots__
+        if not data.__len__() == slots.__len__():
+            raise ValueError('createFromSQLite() failed: ' \
+                            f'Parameter "data" was not length {slots.__len__()}')
 
-        tempID = data[0]
-        tempType = data[1]
-        tempTier = data[2]
-        tempName = data[3]
-        tempEvent = data[4]
-        tempStatus = data[5]
-        tempManifested = data[6]
-        tempKills = data[7]
+        for i in range(0, slots.__len__()):
+            slotType = DBCodexData.getAttributeType(slots[i])
+            if not isinstance(data[i], slotType):
+                raise ValueError('createFromSQLite() failed: ' \
+                                f'data[{i}] was not of type {slotType}')
 
-        return DBCodexData(tempID, tempType, tempTier, tempName,
-                tempEvent, tempStatus, tempManifested, tempKills)
+        return DBCodexData(data[0], data[1], data[2], data[3],
+                data[4], data[5], data[6], data[7], data[8])
 
     def exportJSON(self) -> str:
         if self.event == None:
@@ -41,6 +58,7 @@ class DBCodexData:
                  f'"Event":{eventName},'\
                  f'"Status":"{self.status}",'\
                  f'"Manifested":{self.manifested},'\
-                 f'"Kills":{self.kills}'
+                 f'"Kills":{self.kills},'\
+                 f'"Filepath":"{self.filepath}"'
         
         return f'{{{content}}}'

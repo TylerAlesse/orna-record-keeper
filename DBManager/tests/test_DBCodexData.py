@@ -43,12 +43,12 @@ def test_DBCodexData_createFromTuple() -> None:
     assert actual.kills == 10
     assert actual.filepath == "spider.png"
 
-def test_DBCodexData_createFromSQLite_BadLength() -> None:
+def test_DBCodexData_createFromTuple_BadLength() -> None:
     with pytest.raises(ValueError):
         queryResult = (33, "Fails")
         DBCodexData.createFromTuple(queryResult)
 
-def test_DBCodexData_createFromSQLite_BadType() -> None:
+def test_DBCodexData_createFromTuple_BadType() -> None:
     with pytest.raises(ValueError):
         queryResult = ("Test", 1, 1, "Goblin", None, "Complete", 1, 1, None)
         DBCodexData.createFromTuple(queryResult)

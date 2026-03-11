@@ -6,5 +6,8 @@
 *.csv
 *.sqbpro
 
+# VSCode
+*.code-workspace
+
 # Exceptions
 !DBManager/tests/data/*

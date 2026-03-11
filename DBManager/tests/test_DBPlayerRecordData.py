@@ -1,5 +1,6 @@
 import pytest
 
+from types import UnionType
 from classes.DBPlayerRecordData import DBPlayerRecordData
 
 @pytest.fixture
@@ -38,6 +39,85 @@ def test_DBPlayerRecordData_init(mock_DBPlayerRecordData: DBPlayerRecordData) ->
     assert mock_DBPlayerRecordData.Reputation == 816
     assert mock_DBPlayerRecordData.Codex == 309
     assert mock_DBPlayerRecordData.Notes == "Here be notes"
+
+def test_DBPlayerRecordData_getAnnotation(mock_DBPlayerRecordData: DBPlayerRecordData) -> None:
+    assert DBPlayerRecordData.getAnnotation("Level") is int
+    assert DBPlayerRecordData.getAnnotation("DateObtained") is str
+    assert type(DBPlayerRecordData.getAnnotation("TotalEXP")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("Playtime")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("GlobalRank")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("RegionalRank")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("CompetitiveRank")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("MonsterKills")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("BossKills")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("PlayerKills")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("QuestsCompleted")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("AreasTaken")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("AreasExplored")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("DungeonsCompleted")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("MonumentsCompleted")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("TowersCompleted")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("ColiseumsCompleted")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("ItemsUpgraded")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("FishCaught")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("DistanceTravelled")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("Reputation")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("Codex")) is UnionType
+    assert type(DBPlayerRecordData.getAnnotation("Notes")) is UnionType
+
+def test_DBPlayerRecordData_createFromTuple() -> None:
+    input = (
+        30, "11/19/2020", 5565, 1021, # Lv, Date, EXP, Playtime
+        25000, 12000, 9000,           # Global, Regional, Competitive (Rank)
+        51200, 25740, 25370,          # Monster, Boss, Player (Kills)
+        158, 26, 57, 21,              # Quests, Taken, Explored, Dungeons
+        10, 0, 125,                   # Monuments, Towers, Coliseums
+        980, 112, 55064, 816, 109,    # Items, Fish, Distance, Codex
+        "Here be notes"               # Notes
+    )
+    actual = DBPlayerRecordData.createFromTuple(input)
+    assert type(actual) is DBPlayerRecordData
+    assert actual.Level == 30
+    assert actual.DateObtained == "11/19/2020"
+    assert actual.TotalEXP == 5565
+    assert actual.Playtime == 1021
+    assert actual.GlobalRank == 25000
+    assert actual.RegionalRank == 12000
+    assert actual.CompetitiveRank == 9000
+    assert actual.MonsterKills == 51200
+    assert actual.BossKills == 25740
+    assert actual.PlayerKills == 25370
+    assert actual.QuestsCompleted == 158
+    assert actual.AreasTaken == 26
+    assert actual.AreasExplored == 57
+    assert actual.DungeonsCompleted == 21
+    assert actual.MonumentsCompleted == 10
+    assert actual.TowersCompleted == 0
+    assert actual.ColiseumsCompleted == 125
+    assert actual.ItemsUpgraded == 980
+    assert actual.FishCaught == 112
+    assert actual.DistanceTravelled == 55064
+    assert actual.Reputation == 816
+    assert actual.Codex == 109
+    assert actual.Notes == "Here be notes"
+
+def test_DBPlayerRecordData_createFromTuple_BadLength() -> None:
+    with pytest.raises(ValueError):
+        input = (30, "11/19/2020", 5565, 1021)
+        DBPlayerRecordData.createFromTuple(input)
+
+def test_DBPlayerRecordData_createFromTuple_BadType() -> None:
+    with pytest.raises(ValueError):
+        input = (
+            30, "11/19/2020", 5565, 1021, # Lv, Date, EXP, Playtime
+            25000, 12000, "9000",         # Global, Regional, Competitive (Rank)
+            51200, 25740, 25370,          # Monster, Boss, Player (Kills)
+            158, 26, 57, 21,              # Quests, Taken, Explored, Dungeons
+            10, 0, 125,                   # Monuments, Towers, Coliseums
+            980, 112, 55064, 816, 109,    # Items, Fish, Distance, Codex
+            "Here be notes"               # Notes
+        )
+        DBPlayerRecordData.createFromTuple(input)
 
 def test_DBPlayerRecordData_exportJSON(mock_DBPlayerRecordData: DBPlayerRecordData) -> None:
     expected = '{"Level":81,"DateObtained":"11/19/2025","TotalEXP":3463529,"Playtime":3481,'\

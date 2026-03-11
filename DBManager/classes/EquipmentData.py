@@ -2,14 +2,21 @@ from classes.DBItemData import DBItemData
 from classes.DBEquipmentCollection import DBEquipmentCollection
 
 class EquipmentData:
-    @staticmethod
-    def createFromClasses(itemData: DBItemData, collectionData: DBEquipmentCollection):
-        return EquipmentData(
-            itemData.ID, itemData.Name, itemData.Tier, itemData.Type, itemData.Rarity,
-            collectionData.QualityPercent, collectionData.QualityName, collectionData.IsPerfect,
-            itemData.IsEvent, itemData.IsRaidDrop, itemData.Filepath
-        )
-
+    __slots__ = 'ID', 'Name', 'Tier', 'Type', 'Rarity', 'QualityPercent', \
+        'QualityName', 'IsPerfect', 'IsEvent', 'IsRaidDrop', 'Filepath'
+    
+    ID: int
+    Name: str
+    Tier: int
+    Type: str
+    Rarity: str
+    QualityPercent: int
+    QualityName: str
+    IsPerfect: bool
+    IsEvent: bool
+    IsRaidDrop: bool
+    Filepath: str
+    
     def __init__(self,
                  ID: int, Name: str, Tier: int, Type: str, Rarity: str,
                  QualityPercent: int, QualityName: str, IsPerfect: bool,
@@ -25,6 +32,34 @@ class EquipmentData:
         self.IsEvent = IsEvent
         self.IsRaidDrop = IsRaidDrop
         self.Filepath = Filepath
+
+    @classmethod
+    def getAnnotation(cls, name):
+        return cls.__annotations__[name]
+
+    @staticmethod
+    def createFromClasses(itemData: DBItemData, collectionData: DBEquipmentCollection):
+        return EquipmentData(
+            itemData.ID, itemData.Name, itemData.Tier, itemData.Type, itemData.Rarity,
+            collectionData.QualityPercent, collectionData.QualityName, collectionData.IsPerfect,
+            itemData.IsEvent, itemData.IsRaidDrop, itemData.Filepath
+        )
+    
+    @staticmethod
+    def createFromTuple(data: tuple) -> "EquipmentData":
+        slots = EquipmentData.__slots__
+        if not data.__len__() == slots.__len__():
+            raise ValueError(f'data was not length {slots.__len__()}')
+
+        for i in range(0, slots.__len__()):
+            slotType = EquipmentData.getAnnotation(slots[i])
+            if not isinstance(data[i], slotType):
+                raise ValueError(f'data[{i}] was not of type {slotType}')
+
+        return EquipmentData(
+            data[0], data[1], data[2], data[3], data[4], data[5],
+            data[6], data[7], data[8], data[9], data[10]
+        )
 
     def exportJSON(self) -> str:
         content = f'"ID":{self.ID},'\

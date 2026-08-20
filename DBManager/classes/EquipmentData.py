@@ -1,7 +1,8 @@
+from classes.TableData import TableData
 from classes.DBItemData import DBItemData
 from classes.DBEquipmentCollection import DBEquipmentCollection
 
-class EquipmentData:
+class EquipmentData(TableData):
     __slots__ = 'ID', 'Name', 'Tier', 'Type', 'Rarity', 'QualityPercent', \
         'QualityName', 'IsPerfect', 'IsEvent', 'IsRaidDrop', 'Filepath'
     
@@ -33,10 +34,6 @@ class EquipmentData:
         self.IsRaidDrop = IsRaidDrop
         self.Filepath = Filepath
 
-    @classmethod
-    def getAnnotation(cls, name):
-        return cls.__annotations__[name]
-
     @staticmethod
     def createFromClasses(itemData: DBItemData, collectionData: DBEquipmentCollection):
         return EquipmentData(
@@ -54,7 +51,7 @@ class EquipmentData:
         for i in range(0, slots.__len__()):
             slotType = EquipmentData.getAnnotation(slots[i])
             if not isinstance(data[i], slotType):
-                raise ValueError(f'data[{i}] was not of type {slotType}')
+                raise TypeError(f'data[{i}] was not of type {slotType}')
 
         return EquipmentData(
             data[0], data[1], data[2], data[3], data[4], data[5],

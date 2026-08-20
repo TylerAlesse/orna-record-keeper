@@ -11,12 +11,7 @@ def test_DBEquipmentCollection_init(mock_Collection: DBEquipmentCollection) -> N
     assert mock_Collection.QualityPercent == 198
     assert mock_Collection.QualityName == "Ornate"
     assert mock_Collection.IsPerfect == False
-
-def test_DBEquipmentCollection_getAttributeType() -> None:
-    assert DBEquipmentCollection.getAnnotation("ID") is int
-    assert DBEquipmentCollection.getAnnotation("QualityPercent") is int
-    assert DBEquipmentCollection.getAnnotation("QualityName") is str
-    assert DBEquipmentCollection.getAnnotation("IsPerfect") is bool
+    assert mock_Collection.TableName == "EquipmentCollection"
 
 def test_DBEquipmentCollection_createFromTuple() -> None:
     input = (30, 113, "Superior", False)
@@ -33,7 +28,7 @@ def test_DBEquipmentCollection_createFromTuple_BadLength() -> None:
         DBEquipmentCollection.createFromTuple(input)
 
 def test_DBEquipmentCollection_createFromTuple_BadType() -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         input = ("Incorrect", 100, "Standard", False)
         DBEquipmentCollection.createFromTuple(input)
 

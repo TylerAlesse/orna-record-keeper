@@ -1,20 +1,19 @@
-class DBGuildData:
+from classes.TableData import TableData
+
+class DBGuildData(TableData):
     __slots__ = 'PlayerLevel', 'Name', 'Level', 'EXP'
 
     PlayerLevel: int
     Name: str
     Level: int
     EXP: int
+    TableName: str = "GuildData"
 
     def __init__(self, PlayerLevel: int, Name: str, Level: int, EXP: int) -> None:
         self.PlayerLevel = PlayerLevel
         self.Name = Name
         self.Level = Level
         self.EXP = EXP
-
-    @classmethod
-    def getAnnotation(cls, name):
-        return cls.__annotations__[name]
 
     @staticmethod
     def createFromTuple(data: tuple) -> "DBGuildData":
@@ -25,7 +24,7 @@ class DBGuildData:
         for i in range(0, slots.__len__()):
             slotType = DBGuildData.getAnnotation(slots[i])
             if not isinstance(data[i], slotType):
-                raise ValueError(f'data[{i}] was not of type {slotType}')
+                raise TypeError(f'data[{i}] was not of type {slotType}')
 
         return DBGuildData(data[0], data[1], data[2], data[3])
     

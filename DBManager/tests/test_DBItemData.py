@@ -1,5 +1,6 @@
 import pytest
 
+from types import UnionType
 from classes.DBItemData import DBItemData
 
 @pytest.fixture
@@ -7,7 +8,7 @@ def mock_DBItemData() -> DBItemData:
     return DBItemData(
         81, "Antidote", 1, "Other", "Common",
         False, False, False, 12.5, 0,
-        "/img/useables/antidote.png", "", False, False
+        "/img/useables/antidote.png", "", False, False, None
     )
 
 def test_DBItemData_init(mock_DBItemData: DBItemData) -> None:
@@ -25,28 +26,14 @@ def test_DBItemData_init(mock_DBItemData: DBItemData) -> None:
     assert mock_DBItemData.Base64 == ""
     assert mock_DBItemData.Ignored == False
     assert mock_DBItemData.Removed == False
-
-def test_DBItemData_getAnnotation() -> None:
-    assert DBItemData.getAnnotation("ID") is int
-    assert DBItemData.getAnnotation("Name") is str
-    assert DBItemData.getAnnotation("Tier") is int
-    assert DBItemData.getAnnotation("Type") is str
-    assert DBItemData.getAnnotation("Rarity") is str
-    assert DBItemData.getAnnotation("IsEvent") is bool
-    assert DBItemData.getAnnotation("IsRaidDrop") is bool
-    assert DBItemData.getAnnotation("IsBossScaling") is bool
-    assert DBItemData.getAnnotation("BSP") is float
-    assert DBItemData.getAnnotation("PSC") is int
-    assert DBItemData.getAnnotation("Filepath") is str
-    assert DBItemData.getAnnotation("Base64") is str
-    assert DBItemData.getAnnotation("Ignored") is bool
-    assert DBItemData.getAnnotation("Removed") is bool
+    assert mock_DBItemData.Deleted == None
+    assert mock_DBItemData.TableName == "ItemData"
 
 def test_DBItemData_createFromTuple() -> None:
     input = (
         24, "Great Orcish Axe", 5, "Weapon", "Superior",
         False, True, True, 540.0, 2,
-        "/img/weapons/great_orcish_axe.png", "NotRealData", False, True
+        "/img/weapons/great_orcish_axe.png", "NotRealData", False, True, None
     )
     actual = DBItemData.createFromTuple(input)
     assert type(actual) is DBItemData
@@ -64,6 +51,7 @@ def test_DBItemData_createFromTuple() -> None:
     assert actual.Base64 == "NotRealData"
     assert actual.Ignored == False
     assert actual.Removed == True
+    assert actual.Deleted == None
 
 def test_DBItemData_createFromTuple_BadLength() -> None:
     with pytest.raises(ValueError):
@@ -71,11 +59,11 @@ def test_DBItemData_createFromTuple_BadLength() -> None:
         DBItemData.createFromTuple(input)
 
 def test_DBItemData_createFromTuple_BadType() -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         input = (
             "77", "Great Orcish Axe", 5, "Weapon", "Superior",
             False, True, True, 540.0, 2,
-            "/img/weapons/great_orcish_axe.png", "==NotRealData", False, True
+            "/img/weapons/great_orcish_axe.png", "==NotRealData", False, True, None
         )
         DBItemData.createFromTuple(input)
 

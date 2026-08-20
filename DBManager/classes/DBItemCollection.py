@@ -1,16 +1,15 @@
-class DBItemCollection:
+from classes.TableData import TableData
+
+class DBItemCollection(TableData):
     __slots__ = 'ID', 'Quantity'
 
     ID: int
     Quantity: int
+    TableName: str = "ItemCollection"
 
     def __init__(self, ID: int, Quantity: int) -> None:
         self.ID = ID
         self.Quantity = Quantity
-
-    @classmethod
-    def getAnnotation(cls, name):
-        return cls.__annotations__[name]
 
     @staticmethod
     def createFromTuple(data: tuple) -> "DBItemCollection":
@@ -21,7 +20,7 @@ class DBItemCollection:
         for i in range(0, slots.__len__()):
             slotType = DBItemCollection.getAnnotation(slots[i])
             if not isinstance(data[i], slotType):
-                raise ValueError(f'data[{i}] was not of type {slotType}')
+                raise TypeError(f'data[{i}] was not of type {slotType}')
 
         return DBItemCollection(data[0], data[1])
     

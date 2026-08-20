@@ -22,23 +22,10 @@ def test_EquipmentData_init(mock_EquipmentData: EquipmentData) -> None:
     assert mock_EquipmentData.IsRaidDrop == False
     assert mock_EquipmentData.Filepath == "/img/weapons/battle_axe.png"
 
-def test_EquipmentData_getAnnotation() -> None:
-    assert EquipmentData.getAnnotation("ID") is int
-    assert EquipmentData.getAnnotation("Name") is str
-    assert EquipmentData.getAnnotation("Tier") is int
-    assert EquipmentData.getAnnotation("Type") is str
-    assert EquipmentData.getAnnotation("Rarity") is str
-    assert EquipmentData.getAnnotation("QualityPercent") is int
-    assert EquipmentData.getAnnotation("QualityName") is str
-    assert EquipmentData.getAnnotation("IsPerfect") is bool
-    assert EquipmentData.getAnnotation("IsEvent") is bool
-    assert EquipmentData.getAnnotation("IsRaidDrop") is bool
-    assert EquipmentData.getAnnotation("Filepath") is str
-
 def test_EquipmentData_createFromClasses() -> None:
     itemData = DBItemData(683, "Carl's Dagger", 1, "Weapons", "Common",
                     False, False, False, 150.0, 1,
-                    "/img/weapons/dagger.png", "", False, False)
+                    "/img/weapons/dagger.png", "", False, False, None)
     equipCollection = DBEquipmentCollection(683, 198, "Ornate", False)
     actual = EquipmentData.createFromClasses(itemData, equipCollection)
     
@@ -69,6 +56,12 @@ def test_EquipmentData_createFromTuple() -> None:
     assert actual.IsEvent == False
     assert actual.IsRaidDrop == False
     assert actual.Filepath == "/img/weapons/dagger.png"
+
+def test_EquipmentData_createFromTuple_BadType() -> None:
+    with pytest.raises(TypeError):
+        input = ("Fails", "Carl's Dagger", 1, "Weapons", "Common",
+                198, "Ornate", False, False, False, "/img/weapons/dagger.png")
+        EquipmentData.createFromTuple(input)
 
 def test_EquipmentData_exportJSON(mock_EquipmentData) -> None:
     expected = '{"ID":504,"Name":"Bandit\'s Axe","Tier":1,"Type":"Weapons","Rarity":"Common",'\

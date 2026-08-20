@@ -9,10 +9,7 @@ def mock_DBItemCollection() -> DBItemCollection:
 def test_DBItemCollection_init(mock_DBItemCollection: DBItemCollection) -> None:
     assert mock_DBItemCollection.ID == 10
     assert mock_DBItemCollection.Quantity == 100
-
-def test_DBItemCollection_getAnnotation() -> None:
-    assert DBItemCollection.getAnnotation("ID") is int
-    assert DBItemCollection.getAnnotation("Quantity") is int
+    assert mock_DBItemCollection.TableName == "ItemCollection"
 
 def test_DBItemCollection_createFromTuple() -> None:
     input = (74, 4327)
@@ -27,7 +24,7 @@ def test_DBItemCollection_createFromTuple_BadLength() -> None:
         DBItemCollection.createFromTuple(input)
 
 def test_DBItemCollection_createFromTuple_BadType() -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         input = (56, "22")
         DBItemCollection.createFromTuple(input)
 

@@ -1,11 +1,11 @@
 import pytest
-
-from types import UnionType
 from classes.DBCodexData import DBCodexData
 
 @pytest.fixture
 def mock_DBCodexData() -> DBCodexData:
-    return DBCodexData(2, "Monster", 1, "Bandit", None, "Complete", 1, 5, "bandit.png")
+    return DBCodexData(2, "Monster", 1, "Bandit", None, "Complete", 1, 5, "bandit.png", None)
+
+# Tests
 
 def test_DBCodexData_init(mock_DBCodexData: DBCodexData) -> None:
     assert mock_DBCodexData.ID == 2
@@ -17,20 +17,11 @@ def test_DBCodexData_init(mock_DBCodexData: DBCodexData) -> None:
     assert mock_DBCodexData.Manifested == 1
     assert mock_DBCodexData.Kills == 5
     assert mock_DBCodexData.Filepath == "bandit.png"
-
-def test_DBCodexData_getAttributeType() -> None:
-    assert DBCodexData.getAnnotation("ID") is int
-    assert DBCodexData.getAnnotation("Type") is str
-    assert DBCodexData.getAnnotation("Tier") is int
-    assert DBCodexData.getAnnotation("Name") is str
-    assert type(DBCodexData.getAnnotation("Event")) is UnionType
-    assert DBCodexData.getAnnotation("Status") is str
-    assert DBCodexData.getAnnotation("Manifested") is int
-    assert DBCodexData.getAnnotation("Kills") is int
-    assert type(DBCodexData.getAnnotation("Filepath")) is UnionType
+    assert mock_DBCodexData.Deleted == None
+    assert mock_DBCodexData.TableName == "CodexData"
 
 def test_DBCodexData_createFromTuple() -> None:
-    input = (55, "Boss", 2, "Arachne", "Spider's Nest", "Missing", 0, 10, "spider.png")
+    input = (55, "Boss", 2, "Arachne", "Spider's Nest", "Missing", 0, 10, "spider.png", None)
     actual = DBCodexData.createFromTuple(input)
     assert type(actual) is DBCodexData
     assert actual.ID == 55
@@ -42,6 +33,7 @@ def test_DBCodexData_createFromTuple() -> None:
     assert actual.Manifested == 0
     assert actual.Kills == 10
     assert actual.Filepath == "spider.png"
+    assert actual.Deleted == None
 
 def test_DBCodexData_createFromTuple_BadLength() -> None:
     with pytest.raises(ValueError):

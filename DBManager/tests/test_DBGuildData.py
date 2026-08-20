@@ -11,12 +11,7 @@ def test_DBGuildData_init(mock_DBGuildData: DBGuildData) -> None:
     assert mock_DBGuildData.Name == "Traveler's Guild"
     assert mock_DBGuildData.Level == 29
     assert mock_DBGuildData.EXP == 8283
-
-def test_DBGuildData_getAnnotation() -> None:
-    assert DBGuildData.getAnnotation("PlayerLevel") is int
-    assert DBGuildData.getAnnotation("Name") is str
-    assert DBGuildData.getAnnotation("Level") is int
-    assert DBGuildData.getAnnotation("EXP") is int
+    assert mock_DBGuildData.TableName == "GuildData"
 
 def test_DBGuildData_createFromTuple() -> None:
     input = (83, "Blades of Finesse", 30, 9133)
@@ -33,7 +28,7 @@ def test_DBGuildData_createFromTuple_BadLength() -> None:
         DBGuildData.createFromTuple(input)
 
 def test_DBGuildData_createFromTuple_BadType() -> None:
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         input = ("Incorrect", "Seer's Guild", 56, 30801)
         DBGuildData.createFromTuple(input)
 

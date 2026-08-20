@@ -1,6 +1,8 @@
-class DBCodexData:
-    __slots__ = 'ID', 'Type', 'Tier', 'Name',\
-                'Event', 'Status', 'Manifested', 'Kills', 'Filepath'
+from classes.TableData import TableData
+
+class DBCodexData(TableData):
+    __slots__ = 'ID', 'Type', 'Tier', 'Name', 'Event', 'Status',\
+                'Manifested', 'Kills', 'Filepath', 'Deleted'
 
     ID: int
     Type: str
@@ -11,10 +13,12 @@ class DBCodexData:
     Manifested: int
     Kills: int
     Filepath: str|None
+    Deleted: str|None
+    TableName: str = "CodexData"
 
     def __init__(self, _id: int, _type: str, _tier: int, _name: str,
                  _event: str|None, _status: str, _manifest: int,
-                 _kills: int, _filepath: str|None) -> None:
+                 _kills: int, _filepath: str|None, _deleted: str|None) -> None:
         self.ID: int = _id
         self.Type: str = _type
         self.Tier: int = _tier
@@ -24,10 +28,7 @@ class DBCodexData:
         self.Manifested: int = _manifest
         self.Kills: int = _kills
         self.Filepath: str|None = _filepath
-
-    @classmethod
-    def getAnnotation(cls, name):
-        return cls.__annotations__[name]
+        self.Deleted: str|None = _deleted
 
     @staticmethod
     def createFromTuple(data: tuple) -> "DBCodexData":
@@ -41,8 +42,8 @@ class DBCodexData:
                 raise ValueError(f'data[{i}] was not of type {slotType}')
 
         return DBCodexData(
-            data[0], data[1], data[2], data[3],
-            data[4], data[5], data[6], data[7], data[8]
+            data[0], data[1], data[2], data[3], data[4],
+            data[5], data[6], data[7], data[8], data[9]
         )
 
     def exportJSON(self) -> str:

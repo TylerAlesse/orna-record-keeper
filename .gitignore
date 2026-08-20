@@ -10,4 +10,5 @@
 *.code-workspace
 
 # Exceptions
-!DBManager/tests/data/*
+!DBManager/tests/data/test.db
+!DBManager/tests/data/base_app_test.db
